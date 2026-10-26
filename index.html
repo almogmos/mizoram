@@ -219,6 +219,15 @@ p{margin:0 0 10px}
 .dayplan{list-style:none;margin:8px 0 6px;padding:0;border-top:1px solid var(--line)}
 .dayplan li{display:grid;grid-template-columns:4rem 1fr;gap:10px;padding:8px 0;border-bottom:1px solid var(--line)}
 .dayplan .t{font-weight:800;font-variant-numeric:tabular-nums;color:var(--blue)}
+.rzone{font-size:17px;font-weight:800;color:var(--navy);margin:18px 0 8px;padding-inline-start:9px;border-inline-start:4px solid var(--sky-deep);line-height:1.2}
+.rooms{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px}
+.rooms li{display:flex;gap:12px;align-items:center;background:var(--surface);border:1px solid var(--line);border-inline-start:4px solid var(--sky-deep);border-radius:14px;padding:10px 14px;min-height:64px}
+.rooms .no{font-family:var(--font-num);font-weight:700;font-size:32px;line-height:1;color:var(--sky-deep);min-width:24px;text-align:center}
+.rooms b{display:block;color:var(--navy);line-height:1.3}
+.rooms small{display:block;font-size:15px;color:var(--mute)}
+.rooms li.hq{background:var(--navy);border-color:var(--navy)}
+.rooms li.hq .no{color:var(--sky-2)} .rooms li.hq b{color:#fff} .rooms li.hq small{color:var(--sky-2)}
+.rooms li.lg{border-inline-start-color:var(--blue);background:var(--tint-2)}
 .views{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 12px}
 .views span{font-size:14.5px;border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:3px 10px}
 .rules{counter-reset:r;list-style:none;margin:8px 0 0;padding:0}
@@ -640,6 +649,7 @@ footer p{margin:0 0 4px}
     <nav class="toc" aria-label="נושאים">
       <a href="#info/about">המטרה</a>
       <a href="#info/interviews">הראיונות</a>
+      <a href="#info/rooms">חדרי ראיון</a>
       <a href="#info/care">לינה ואוכל</a>
       <a href="#info/day">יום טיפוסי</a>
       <a href="#info/portal">פורטל הרבנים</a>
@@ -664,6 +674,34 @@ footer p{margin:0 0 4px}
       <div><dt>תיעוד</dt><dd>במערכת הדיגיטלית, פורטל הרבנים</dd></div>
       <div><dt>ימי ראיונות</dt><dd class="num">3, 4, 5, 8, 9 ו-10 בנובמבר<small>ביום שישי 6.11 ביקור בקהילות, ובשבת מנוחה</small></dd></div>
     </dl>
+
+    <h2 class="sec" id="s-rooms">חדרי ראיון ומתורגמנים</h2>
+    <p class="lead">בכל חדר יושבים רב ומתורגמן. בנוסף יש שני מתורגמנים לוגיסטיים.</p>
+    <h3 class="rzone">קומה עליונה</h3>
+    <ul class="rooms">
+      <li class="hq"><span class="no">1</span><span><b>מפקדה</b><small>צוות המשלחת</small></span></li>
+      <li><span class="no">2</span><span><b>הרב הלל אשר קסמן</b><small>מתורגמן: יהודה סינגסון</small></span></li>
+      <li><span class="no">3</span><span><b>הרב דוד אוחיון, אלפי מנשה</b><small>מתורגמן: עובד להובום</small></span></li>
+      <li><span class="no">4</span><span><b>הרב שמעיה טחבש</b><small>מתורגמן: משה האוקיפ</small></span></li>
+      <li><span class="no">5</span><span><b>הרב שלמה גליקסברג</b><small>מתורגמן: עמוס פולמטה</small></span></li>
+      <li><span class="no">6</span><span><b>הרב חזקיהו סמין</b><small>מתורגמן: שלמה ואיפיי</small></span></li>
+      <li><span class="no">7</span><span><b>הרב דוד אסולין</b><small>מתורגמן: גולן טוטאנג</small></span></li>
+      <li><span class="no">8</span><span><b>הרב יהושע וייסינגר</b><small>מתורגמן: ימין האנגשינג</small></span></li>
+    </ul>
+    <h3 class="rzone">קומה תחתונה</h3>
+    <ul class="rooms">
+      <li><span class="no">1</span><span><b>הרב אליעזר איגרא</b><small>מתורגמן: יוסף טונגנונג</small></span></li>
+    </ul>
+    <h3 class="rzone">אולם</h3>
+    <ul class="rooms">
+      <li><span class="no">1</span><span><b>הרב צבי דידי</b><small>מתורגמן: אבי להובום</small></span></li>
+      <li><span class="no">2</span><span><b>הרב דוד אוחיון, ירושלים</b><small>מתורגמן: מכיר טוטאנג</small></span></li>
+    </ul>
+    <h3 class="rzone">מתורגמנים לוגיסטיים</h3>
+    <ul class="rooms">
+      <li class="lg"><span><b>אסף טוטאנג</b><small>מתורגמן לוגיסטי</small></span></li>
+      <li class="lg"><span><b>גולן צ׳ונגלוי</b><small>מתורגמן לוגיסטי</small></span></li>
+    </ul>
 
     <h2 class="sec" id="s-care">לינה, אוכל והסעות</h2>
     <dl class="facts">
@@ -1188,30 +1226,30 @@ var PEOPLE = [
   ["משה פינס","משנה למנכ״ל משרד העלייה והקליטה, ראש המשלחת","",""],
   ["אלמוג מוסקוביץ","מנהל המשלחת","","חוזר למבצע מ-16.11 עד 26.11"],
   ["הבטאמו יוסף","מנהל תפעול הראיונות","",""],
-  ["הרב אליעזר איגרא","ראש צוות הרבנים ורב מראיין","",""]]],
+  ["הרב אליעזר איגרא","ראש צוות הרבנים ורב מראיין, חדר 1 בקומה התחתונה","",""]]],
  ["רבנים מראיינים",[
-  ["הרב דוד אוחיון","רב מראיין, אלפי מנשה","",""],
-  ["הרב דוד אוחיון","רב מראיין, ירושלים","",""],
-  ["הרב דוד אסולין","רב מראיין","",""],
-  ["הרב יהושע וייסינגר","רב מראיין","",""],
-  ["הרב צבי דידי","רב מראיין","",""],
-  ["הרב הלל אשר קסמן","רב מראיין","",""],
-  ["הרב שמעיה טחבש","רב מראיין","",""],
-  ["הרב חזקיהו סמין","רב מראיין","",""],
-  ["הרב שלמה גליקסברג","רב מראיין","",""]]],
+  ["הרב דוד אוחיון","רב מראיין, אלפי מנשה, חדר 3 בקומה העליונה","",""],
+  ["הרב דוד אוחיון","רב מראיין, ירושלים, עמדה 2 באולם","",""],
+  ["הרב דוד אסולין","רב מראיין, חדר 7 בקומה העליונה","",""],
+  ["הרב יהושע וייסינגר","רב מראיין, חדר 8 בקומה העליונה","",""],
+  ["הרב צבי דידי","רב מראיין, עמדה 1 באולם","",""],
+  ["הרב הלל אשר קסמן","רב מראיין, חדר 2 בקומה העליונה","",""],
+  ["הרב שמעיה טחבש","רב מראיין, חדר 4 בקומה העליונה","",""],
+  ["הרב חזקיהו סמין","רב מראיין, חדר 6 בקומה העליונה","",""],
+  ["הרב שלמה גליקסברג","רב מראיין, חדר 5 בקומה העליונה","",""]]],
  ["מתורגמנים",[
-  ["מכיר טותאנג","מתורגמן","",""],
-  ["יהודה סינגסון","מתורגמן","",""],
-  ["גולן טותאנג","מתורגמן","",""],
-  ["אבי להובום","מתורגמן","",""],
-  ["ימין הנגשינג","מתורגמן","",""],
-  ["יוסף טונגנונג","מתורגמן","",""],
-  ["שלמה וייפהי","מתורגמן","","בהודו כבר מ-19.10"],
-  ["עמוס פולמטה","מתורגמן","",""],
-  ["עובד להובום","מתורגמן","",""],
-  ["משה האוקיפ","מתורגמן","",""],
-  ["גולן צ׳ונגלוי","מתורגמן","",""],
-  ["אסף טותאנג","מתורגמן","",""]]],
+  ["מכיר טוטאנג","מתורגמן, עמדה 2 באולם, עם הרב דוד אוחיון (ירושלים)","",""],
+  ["יהודה סינגסון","מתורגמן, חדר 2 בקומה העליונה, עם הרב קסמן","",""],
+  ["גולן טוטאנג","מתורגמן, חדר 7 בקומה העליונה, עם הרב אסולין","",""],
+  ["אבי להובום","מתורגמן, עמדה 1 באולם, עם הרב דידי","",""],
+  ["ימין האנגשינג","מתורגמן, חדר 8 בקומה העליונה, עם הרב וייסינגר","",""],
+  ["יוסף טונגנונג","מתורגמן, חדר 1 בקומה התחתונה, עם הרב איגרא","",""],
+  ["שלמה ואיפיי","מתורגמן, חדר 6 בקומה העליונה, עם הרב סמין","","בהודו כבר מ-19.10"],
+  ["עמוס פולמטה","מתורגמן, חדר 5 בקומה העליונה, עם הרב גליקסברג","",""],
+  ["עובד להובום","מתורגמן, חדר 3 בקומה העליונה, עם הרב דוד אוחיון (אלפי מנשה)","",""],
+  ["משה האוקיפ","מתורגמן, חדר 4 בקומה העליונה, עם הרב טחבש","",""],
+  ["גולן צ׳ונגלוי","מתורגמן לוגיסטי","",""],
+  ["אסף טוטאנג","מתורגמן לוגיסטי","",""]]],
  ["צוות הסוכנות היהודית",[
   ["חנוך האוקיפ","תחקירים, שילוח ותפעול","","בהודו עד 26.11"],
   ["צבי חאוטה","כוח מקדים, רבנים ושילוח","","בהודו מ-18.10 עד 26.11"],
@@ -1285,7 +1323,7 @@ function renderSteps(){
 /* ---------- routing ---------- */
 var VIEWS = ["today","schedule","project","info","prep","team"];
 var PROJ_ANCHORS = {plan:"p-plan", journey:"p-journey", community:"p-community", region:"p-region"};
-var INFO_ANCHORS = {about:"s-about", interviews:"s-interviews", care:"s-care", day:"s-day", portal:"s-portal", india:"s-india"};
+var INFO_ANCHORS = {about:"s-about", interviews:"s-interviews", rooms:"s-rooms", care:"s-care", day:"s-day", portal:"s-portal", india:"s-india"};
 function route(){
   var h = (location.hash || "#today").slice(1).split("/");
   var view = VIEWS.indexOf(h[0]) >= 0 ? h[0] : "today";
