@@ -271,6 +271,8 @@ p{margin:0 0 10px}
 .car{background:var(--surface);border:1px solid var(--line);border-top:4px solid var(--navy);border-radius:14px;padding:10px 14px}
 .carh{color:var(--navy);font-weight:700;padding-bottom:6px;margin-bottom:6px;border-bottom:1px solid var(--line)}
 .carh b{font-family:var(--font-num);font-size:28px;color:var(--sky-deep);margin-inline-start:4px}
+.advtag{display:inline-block;font-size:13px;font-weight:700;color:#fff;background:var(--sky-deep);border-radius:999px;padding:1px 10px;margin-inline-start:8px;vertical-align:5px;font-family:inherit}
+.car.adv{border-top-color:var(--sky-deep)}
 .car ul{list-style:none;margin:0;padding:0;font-size:16px}
 .car li{padding:3px 0}
 .car li small{color:var(--mute);font-size:14px}
@@ -1314,7 +1316,7 @@ var CARS = [
  [5,["הרב דוד אסולין","הרב חזקיהו סמין","הרב יהושע וייסינגר"]],
  [6,["הרב דוד אוחיון (ירושלים)","הרב הלל אשר קסמן","הרב צבי דידי","הרב שלמה גליקסברג"]],
  [7,["אליהו אליהו","דוד יאסו","חנוך האוקיפ"]],
- [8,["זימרה טותאנג","ליביה הנגל (מ-5.11)","מזל ברהנה","רינה נגוסה"]],
+ [8,["זימרה טותאנג","ליביה הנגל (מ-5.11)","מזל ברהנה","רינה נגוסה"],"רכב מקדים"],
  [9,["יוסף טונגנונג","ימין הנגשינג","מכיר טותאנג"]],
  [10,["אבי להובום","יהודה סינגסון","עובד להובום","שלמה וייפהי"]],
  [11,["גולן צ׳ונגלוי","משה האוקיפ","עמוס פולמטה","קב״ט הודי 2"]]
@@ -1323,7 +1325,7 @@ function renderCars(){
   var total = 0;
   document.getElementById("cars").innerHTML = CARS.map(function(c){
     total += c[1].length;
-    return '<div class="car"><div class="carh">רכב <b class="num">'+c[0]+'</b></div><ul>'+c[1].map(function(n){
+    return '<div class="car'+(c[2]?' adv':'')+'"><div class="carh">רכב <b class="num">'+c[0]+'</b>'+(c[2]?'<span class="advtag">'+esc(c[2])+'</span>':'')+'</div><ul>'+c[1].map(function(n){
       var m = n.match(/^(.*?)\s*\((.*)\)$/);
       return '<li>'+(m ? esc(m[1])+' <small>'+esc(m[2])+'</small>' : esc(n))+'</li>';
     }).join("")+'</ul></div>';
