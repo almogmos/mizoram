@@ -267,6 +267,15 @@ p{margin:0 0 10px}
 .people b{display:block;font-size:17px;line-height:1.3}
 .people small{display:block;color:var(--mute);font-size:15px;line-height:1.35}
 .people em{display:block;font-style:normal;color:var(--blue);font-size:13.5px;font-weight:700}
+.cars-h{font-size:21px;font-weight:800;color:var(--navy);margin:26px 0 4px}
+.cars{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px;margin:8px 0 6px}
+.car{background:var(--surface);border:1px solid var(--line);border-top:4px solid var(--navy);border-radius:14px;padding:10px 14px}
+.carh{color:var(--navy);font-weight:700;padding-bottom:6px;margin-bottom:6px;border-bottom:1px solid var(--line)}
+.carh b{font-family:var(--font-num);font-size:28px;color:var(--sky-deep);margin-inline-start:4px}
+.car ul{list-style:none;margin:0;padding:0;font-size:16px}
+.car li{padding:3px 0}
+.car li small{color:var(--mute);font-size:14px}
+.cartag{display:inline-block;font-size:12.5px;font-weight:700;color:var(--blue);background:var(--tint);border-radius:999px;padding:0 8px;margin-inline-start:6px;vertical-align:2px}
 .acts{display:flex;gap:6px}
 .acts a{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;border:1px solid var(--line);background:var(--surface);color:var(--blue)}
 .acts a.wa{color:var(--ok)}
@@ -714,7 +723,7 @@ footer p{margin:0 0 4px}
       <div><dt>ארוחת בוקר</dt><dd>מזון כשר מקומי</dd></div>
       <div><dt>צהריים וערב</dt><dd>אוכל כשר מוכן שמגיע מדלהי</dd></div>
       <div><dt>שבת</dt><dd>באולם שהוקצה למשלחת במלון, עם קייטרינג מבית חב״ד</dd></div>
-      <div><dt>הסעות</dt><dd>רכבים יומיים בין המלון למתחם הראיונות</dd></div>
+      <div><dt>הסעות</dt><dd>רכבים יומיים בין המלון למתחם הראיונות<small>החלוקה לרכבים נמצאת בלשונית צוות</small></dd></div>
     </dl>
 
     <h2 class="sec" id="s-day">יום ראיונות טיפוסי</h2>
@@ -805,6 +814,10 @@ footer p{margin:0 0 4px}
     <h2 class="sec">משתתפי המשלחת</h2>
     <a class="wagroup" href="https://chat.whatsapp.com/CU66OwaU7P1K454MokeB11" target="_blank" rel="noopener"><span class="wi"><svg aria-hidden="true"><use href="#i-chat"/></svg></span><span><b>קבוצת הוואטסאפ של המשלחת</b><small>עדכונים ותיאומים לפני ובמהלך המשלחת</small></span><span class="go">הצטרפות</span></a>
     <div class="search"><svg aria-hidden="true"><use href="#i-search"/></svg><input id="q" type="search" placeholder="חיפוש לפי שם או תפקיד" aria-label="חיפוש משתתפים" autocomplete="off"></div>
+    <h3 class="cars-h" id="s-cars">חלוקה לרכבים</h3>
+    <p class="lead">מיזורם, 2.11 עד 11.11. <span id="carsSum"></span></p>
+    <div class="cars" id="cars"></div>
+    <h3 class="cars-h">כל המשתתפים</h3>
     <p class="tcount" id="tcount"></p>
     <div id="people"></div>
 
@@ -813,7 +826,7 @@ footer p{margin:0 0 4px}
 
 <footer>
   <p>מבצע כנפי שחר, שיבתם של בני מנשה לישראל.</p>
-  <p>הלו״ז נכון ל-11.10.2026 ועשוי להשתנות. כל השעות לפי השעון המקומי.</p>
+  <p>הלו״ז עשוי להשתנות. כל השעות לפי השעון המקומי.</p>
 </footer>
 </main>
 
@@ -1292,6 +1305,37 @@ var PEOPLE = [
   ["אליהו אליהו","קב״ט המשלחת","",""],
   ["ד״ר מני עמרן","רופא המשלחת","",""]]]
 ];
+var CARS = [
+ [1,["אסף טוטאנג","גולן טוטאנג","יצחק קולני","קב״ט הודי 1"]],
+ [2,["אולג דובקין","ד״ר מני עמרן","עזרא דוד","צבי חאוטה"]],
+ [3,["אלמוג מוסקוביץ","הבטאמו יוסף","משה פינס"]],
+ [4,["הרב אליעזר איגרא","הרב דוד אוחיון (אלפי מנשה)","הרב שמעיה טהבש"]],
+ [5,["הרב דוד אסולין","הרב חזקיהו סמין","הרב יהושע וייסינגר"]],
+ [6,["הרב דוד אוחיון (ירושלים)","הרב הלל אשר קסמן","הרב צבי דידי","הרב שלמה גליקסברג"]],
+ [7,["אליהו אליהו","דוד יאסו","חנוך האוקיפ"]],
+ [8,["זימרה טותאנג","ליביה הנגל (מ-5.11)","מזל ברהנה","רינה נגוסה"]],
+ [9,["יוסף טונגנונג","ימין האנגשינג","מכיר טוטאנג"]],
+ [10,["אבי להובום","יהודה סינגסון","עובד להובום","שלמה ואיפיי"]],
+ [11,["גולן צ׳ונגלוי","משה האוקיפ","עמוס פולמטה","קב״ט הודי 2"]]
+];
+function carKey(n){ return n.replace(/\(.*?\)/g,"").replace(/\s+/g," ").trim(); }
+function carOf(name, role){
+  var k = carKey(name), hit = 0;
+  if (k === "הרב דוד אוחיון") return role.indexOf("אלפי מנשה") >= 0 ? 4 : 6;
+  CARS.forEach(function(c){ c[1].forEach(function(n){ if (carKey(n) === k) hit = c[0]; }); });
+  return hit;
+}
+function renderCars(){
+  var total = 0;
+  document.getElementById("cars").innerHTML = CARS.map(function(c){
+    total += c[1].length;
+    return '<div class="car"><div class="carh">רכב <b class="num">'+c[0]+'</b></div><ul>'+c[1].map(function(n){
+      var m = n.match(/^(.*?)\s*\((.*)\)$/);
+      return '<li>'+(m ? esc(m[1])+' <small>'+esc(m[2])+'</small>' : esc(n))+'</li>';
+    }).join("")+'</ul></div>';
+  }).join("");
+  document.getElementById("carsSum").textContent = CARS.length+" רכבים, "+total+" נוסעים.";
+}
 var KEY_CONTACTS = ["משה פינס","אלמוג מוסקוביץ","הבטאמו יוסף","ד״ר מני עמרן","עזרא דוד"];
 function intl(ph){ var d = ph.replace(/\D/g,""); if (d.charAt(0)==="0") d = "972"+d.slice(1); return d; }
 function initials(n){ var w = n.replace(/^(הרב|ד״ר)\s+/,"").replace(/\(.*?\)/g,"").trim().split(/\s+/); return (w[0]||"").charAt(0)+(w.length>1? w[w.length-1].charAt(0):""); }
@@ -1306,7 +1350,8 @@ function renderPeople(){
     html += '<div class="grp" data-grp="'+gi+'"><h3>'+g[0]+' <small class="num" style="color:var(--mute);font-weight:600">('+g[1].length+')</small></h3><ul class="people">';
     g[1].forEach(function(p){
       var hay = (p[0]+" "+p[1]+" "+g[0]).toLowerCase();
-      html += '<li data-s="'+esc(hay)+'"><span class="av">'+esc(initials(p[0]))+'</span><span><b>'+esc(p[0])+'</b><small>'+esc(p[1])+'</small>'+(p[3]?'<em>'+esc(p[3])+'</em>':'')+'</span></li>';
+      var cn = carOf(p[0], p[1]);
+      html += '<li data-s="'+esc(hay+(cn?" רכב "+cn:""))+'"><span class="av">'+esc(initials(p[0]))+'</span><span><b>'+esc(p[0])+(cn?' <span class="cartag">רכב '+cn+'</span>':'')+'</b><small>'+esc(p[1])+'</small>'+(p[3]?'<em>'+esc(p[3])+'</em>':'')+'</span></li>';
     });
     html += '</ul></div>';
   });
@@ -1396,7 +1441,7 @@ if (location.hash && location.hash !== "#today"){
 }
 window.scrollTo(0,0);
 renderChecks();
-renderPeople();
+renderPeople(); renderCars();
 renderSteps();
 renderClocks();
 route();
