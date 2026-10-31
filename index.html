@@ -1111,7 +1111,7 @@ function renderStatus(){
     var done = checkedCount();
     html = '<p class="when">יום א׳, 1 בנובמבר</p><h2>נפגשים בנתב״ג</h2>' + cnt +
       '<dl class="meet"><dt>שעה</dt><dd class="num">05:00</dd><dt>מקום</dt><dd>טרמינל 3, שער 32</dd><dt>הגעה</dt><dd>עצמאית</dd><dt>טיסה</dt><dd class="num"><span class="ltr">ET 415</span> לאדיס אבבה, 09:00</dd></dl>' +
-      '<div class="btnrow"><button class="btn primary" data-go="prep">'+ico("i-bag")+'רשימת ההכנות ('+done+' מתוך '+CHECK_TOTAL+')</button><button class="btn" data-go="schedule/1">'+ico("i-cal")+'הלו״ז המלא</button></div>';
+      '<div class="btnrow"><button class="btn primary" data-go="prep">'+ico("i-bag")+'רשימת ההכנות</button><button class="btn" data-go="schedule/1">'+ico("i-cal")+'הלו״ז המלא</button></div>';
   } else if (ph === "during"){
     var di = currentDayIndex(t), day = DAYS[di];
     var nowIt = null, upcoming = [];
