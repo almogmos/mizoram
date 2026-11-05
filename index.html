@@ -273,6 +273,7 @@ p{margin:0 0 10px}
 .carh b{font-family:var(--font-num);font-size:28px;color:var(--sky-deep);margin-inline-start:4px}
 .advtag{display:inline-block;font-size:13px;font-weight:700;color:#fff;background:var(--sky-deep);border-radius:999px;padding:1px 10px;margin-inline-start:8px;vertical-align:5px;font-family:inherit}
 .car.adv{border-top-color:var(--sky-deep)}
+.carsgrp{font-size:17px;font-weight:800;color:var(--navy);margin:20px 0 8px}
 .car li.cdesc{color:var(--mute);font-style:italic}
 .car ul{list-style:none;margin:0;padding:0;font-size:16px}
 .car li{padding:3px 0}
@@ -722,7 +723,7 @@ footer p{margin:0 0 4px}
 
     <h2 class="sec" id="s-cars">חלוקה לרכבים</h2>
     <p class="lead">מיזורם, 2.11 עד 11.11. רכבי המשלחת בין המלון למתחם הראיונות. <span id="carsSum"></span></p>
-    <div class="cars" id="cars"></div>
+    <div id="cars"></div>
 
     <h2 class="sec" id="s-care">לינה, אוכל והסעות</h2>
     <dl class="facts">
@@ -1314,30 +1315,47 @@ var PEOPLE = [
   ["אליהו אליהו","קב״ט המשלחת","",""],
   ["ד״ר מני עמרן","רופא המשלחת","",""]]]
 ];
+var CARS_MORNING = [
+ ["בוקר, 07:00: יציאה ראשונה, רכבים מקדימים", [
+  [1,["אסף טותאנג","גולן צ׳ונגלוי","יצחק קולני","קב״ט הודי 1"],"רכב מקדים"],
+  [8,["זימרה מטה","ליביה הנגל","מזל ברהנה","רינה נגוסה"],"רכב מקדים"]]],
+ ["בוקר, 08:00: יציאה שנייה, רכבים 1 ו-8 אחרי שחזרו", [
+  [1,["הרב צבי דידי","הרב שלמה גליקסברג"],"אחרי שחזר"],
+  [2,["אולג דובקין","ד״ר מני עמרן","עזרא דוד","צבי חאוטה"]],
+  [3,["אלמוג מוסקוביץ","הבטאמו יוסף","משה פינס"]],
+  [4,["הרב אליעזר איגרא","הרב דוד אוחיון (אלפי מנשה)","הרב שמעיה טהבש"]],
+  [5,["הרב דוד אסולין","הרב חזקיהו סמין","הרב יהושע וייסינגר"]],
+  [7,["אליהו אליהו","דוד יאסו","חנוך האוקיפ"]],
+  [8,["יוסף טונגנונג","ימין הנגשינג","מכיר טותאנג"],"אחרי שחזר"],
+  [9,["הרב דוד אוחיון (ירושלים)","הרב הלל אשר קסמן"]],
+  [10,["אבי להובום","יהודה סינגסון","עובד להובום","שלמה וייפהי"]],
+  [11,["גולן טותאנג","משה האוקיפ","עמוס פולמטה","קב״ט הודי 2"]],
+  [12,[],"","שוטרים מקומיים"]]]
+];
 var CARS = [
- [1,["אסף טותאנג","גולן צ׳ונגלוי","יצחק קולני","קב״ט הודי 1"],"רכב מקדים"],
+ [1,["אסף טותאנג","גולן צ׳ונגלוי","יצחק קולני","קב״ט הודי 1"]],
  [2,["אולג דובקין","ד״ר מני עמרן","עזרא דוד","צבי חאוטה"]],
  [3,["אלמוג מוסקוביץ","הבטאמו יוסף","משה פינס"]],
  [4,["הרב אליעזר איגרא","הרב דוד אוחיון (אלפי מנשה)","הרב שמעיה טהבש"]],
  [5,["הרב דוד אסולין","הרב חזקיהו סמין","הרב יהושע וייסינגר"]],
- [6,["הרב דוד אוחיון (ירושלים)","הרב הלל אשר קסמן","הרב צבי דידי","הרב שלמה גליקסברג"]],
- [7,["אליהו אליהו","דוד יאסו","חנוך האוקיפ"]],
- [8,["זימרה מטה","ליביה הנגל (מ-5.11)","מזל ברהנה","רינה נגוסה"],"רכב מקדים"],
- [9,["יוסף טונגנונג","ימין הנגשינג","מכיר טותאנג"]],
- [10,["אבי להובום","יהודה סינגסון","עובד להובום","שלמה וייפהי"]],
- [11,["גולן טותאנג","משה האוקיפ","עמוס פולמטה","קב״ט הודי 2"]],
+ [7,["אליהו אליהו","דוד יאסו","חנוך האוקיפ","קב״ט הודי 2"]],
+ [8,["זימרה מטה","ליביה הנגל","מזל ברהנה","רינה נגוסה"]],
+ [9,["הרב דוד אוחיון (ירושלים)","הרב הלל אשר קסמן","הרב צבי דידי","הרב שלמה גליקסברג"]],
+ [10,["אבי להובום","יהודה סינגסון","עובד להובום","שלמה וייפהי","יוסף טונגנונג"]],
+ [11,["גולן טותאנג","משה האוקיפ","עמוס פולמטה","ימין הנגשינג","מכיר טותאנג"]],
  [12,[],"","שוטרים מקומיים"]
 ];
+function carCard(c){
+  return '<div class="car'+(c[2]?' adv':'')+'"><div class="carh">רכב <b class="num">'+c[0]+'</b>'+(c[2]?'<span class="advtag">'+esc(c[2])+'</span>':'')+'</div><ul>'+c[1].map(function(n){
+    var m = n.match(/^(.*?)\s*\((.*)\)$/);
+    return '<li>'+(m ? esc(m[1])+' <small>'+esc(m[2])+'</small>' : esc(n))+'</li>';
+  }).join("")+(c[3]?'<li class="cdesc">'+esc(c[3])+'</li>':'')+'</ul></div>';
+}
 function renderCars(){
-  var total = 0;
-  document.getElementById("cars").innerHTML = CARS.map(function(c){
-    total += c[1].length;
-    return '<div class="car'+(c[2]?' adv':'')+'"><div class="carh">רכב <b class="num">'+c[0]+'</b>'+(c[2]?'<span class="advtag">'+esc(c[2])+'</span>':'')+'</div><ul>'+c[1].map(function(n){
-      var m = n.match(/^(.*?)\s*\((.*)\)$/);
-      return '<li>'+(m ? esc(m[1])+' <small>'+esc(m[2])+'</small>' : esc(n))+'</li>';
-    }).join("")+(c[3]?'<li class="cdesc">'+esc(c[3])+'</li>':'')+'</ul></div>';
-  }).join("");
-  document.getElementById("carsSum").textContent = CARS.length+" רכבים, "+total+" נוסעים.";
+  var total = 0; CARS.forEach(function(c){ total += c[1].length; });
+  var grp = function(t, L){ return '<h3 class="carsgrp">'+esc(t)+'</h3><div class="cars">'+L.map(carCard).join("")+'</div>'; };
+  document.getElementById("cars").innerHTML = CARS_MORNING.map(function(g){ return grp(g[0], g[1]); }).join("") + grp("ערב: כל הרכבים יוצאים יחד", CARS);
+  document.getElementById("carsSum").textContent = CARS.length+" רכבים, "+total+" נוסעים. רכב 6 אינו פעיל מ-5.11.";
 }
 var KEY_CONTACTS = ["משה פינס","אלמוג מוסקוביץ","הבטאמו יוסף","ד״ר מני עמרן","עזרא דוד"];
 function intl(ph){ var d = ph.replace(/\D/g,""); if (d.charAt(0)==="0") d = "972"+d.slice(1); return d; }
