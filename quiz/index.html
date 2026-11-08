@@ -1,0 +1,390 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>חידון כנפי שחר</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Secular+One&family=Rubik:wght@400;500;700;900&display=swap">
+<style>
+/* One stage: host = projector board, player = phone controller. Night over the Aizawl ridges. */
+:root{
+  --night:#141833; --ridge:#20264d; --ink:#f4f1ff; --mute:#a9acd0; --line:#343b70;
+  --saffron:#f2a33a; --jade:#22a585; --rose:#d9506a; --sky:#3e8edb;
+  --good:#3fcf8e; --bad:#ef5a6f;
+  --display:"Secular One","Rubik",system-ui,sans-serif;
+  --body:"Rubik",system-ui,-apple-system,"Segoe UI",Arial,sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{background:var(--night);color:var(--ink);font-family:var(--body);font-size:16px;
+  padding:env(safe-area-inset-top,0px) max(16px,env(safe-area-inset-right,0px)) env(safe-area-inset-bottom,0px) max(16px,env(safe-area-inset-left,0px));
+  background-image:radial-gradient(ellipse 120% 60% at 50% 115%,var(--ridge) 0 45%,transparent 46%),radial-gradient(ellipse 90% 50% at 15% 120%,#1a1f42 0 45%,transparent 46%);
+  background-attachment:fixed}
+#app{max-width:1200px;margin:0 auto;min-height:100%;display:flex;flex-direction:column;padding-block:18px 28px;gap:18px}
+h1,h2,h3{font-family:var(--display);font-weight:400;margin:0;text-wrap:balance}
+button{font:inherit;cursor:pointer;border:0}
+button:focus-visible,input:focus-visible{outline:3px solid var(--saffron);outline-offset:2px}
+img{max-width:100%}
+[hidden]{display:none!important}
+.top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.brand{font-family:var(--display);font-size:20px}
+.brand small{display:block;font-family:var(--body);font-size:12px;color:var(--mute);letter-spacing:.08em}
+.pill{background:var(--ridge);border:1px solid var(--line);border-radius:999px;padding:6px 14px;font-size:14px;color:var(--mute);font-variant-numeric:tabular-nums}
+.pill.off{color:var(--bad);border-color:var(--bad)}
+.btn{background:var(--saffron);color:#1b1300;border-radius:12px;padding:14px 22px;font-weight:700;font-size:18px}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.btn.small{padding:8px 14px;font-size:14px;border-radius:9px}
+.btn:disabled{opacity:.45;cursor:default}
+.center{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;text-align:center}
+.hero{font-size:clamp(40px,8vw,84px);line-height:1}
+.hero em{font-style:normal;color:var(--saffron)}
+.sub{color:var(--mute);font-size:18px;max-width:46ch;margin:0}
+.note{font-size:13px;color:var(--mute)}
+.err{color:var(--bad);font-size:15px;min-height:1.2em}
+.field{display:flex;flex-direction:column;gap:6px;width:100%;text-align:right}
+.field label{color:var(--mute);font-size:14px}
+input[type=text],input[type=tel]{font:inherit;background:var(--ridge);color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:12px 14px;font-size:20px;width:100%}
+#codeIn{font-family:var(--display);font-size:34px;letter-spacing:.3em;text-align:center;direction:ltr}
+.joinform{display:flex;flex-direction:column;gap:14px;width:100%;max-width:380px}
+.photo{display:flex;align-items:center;gap:14px}
+.photo label.pick{background:var(--ridge);border:1px dashed var(--line);border-radius:12px;padding:12px 16px;cursor:pointer;color:var(--mute);flex:1;text-align:center}
+.photo input{position:absolute;width:1px;height:1px;opacity:0}
+/* avatars */
+.av{width:var(--s,48px);height:var(--s,48px);border-radius:50%;flex:none;display:grid;place-items:center;font-family:var(--display);font-size:calc(var(--s,48px)*.45);color:#fff;overflow:hidden;border:2px solid rgba(255,255,255,.25);background:var(--c,#555)}
+.av img{width:100%;height:100%;object-fit:cover;display:block}
+.people{display:flex;flex-wrap:wrap;gap:16px 12px;justify-content:center;max-width:1100px}
+.person{display:flex;flex-direction:column;align-items:center;gap:6px;width:96px;animation:pop .4s ease-out}
+.person span{font-size:14px;font-weight:500;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+@keyframes pop{from{transform:scale(.5);opacity:.1}to{transform:none;opacity:1}}
+/* host lobby */
+.lobby{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:28px;align-items:center}
+.joinbox{background:var(--ridge);border:1px solid var(--line);border-radius:20px;padding:22px 26px;display:flex;gap:24px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.joinbox .lbl{color:var(--mute);font-size:15px}
+.bigcode{font-family:var(--display);font-size:clamp(56px,9vw,110px);line-height:1;color:var(--saffron);letter-spacing:.12em;direction:ltr}
+.url{direction:ltr;font-size:16px;color:var(--ink);word-break:break-all}
+#qr{background:#fff;padding:8px;border-radius:10px;line-height:0}
+#qr:empty{display:none}
+.frame{border-radius:18px;overflow:hidden;border:1px solid var(--line);aspect-ratio:4/3;background:var(--ridge);transform:rotate(-1.5deg);box-shadow:0 20px 50px rgba(0,0,0,.45)}
+.frame img{width:100%;height:100%;object-fit:cover;display:block;transition:opacity .6s}
+.count{font-family:var(--display);font-size:56px;color:var(--saffron);line-height:1}
+/* question */
+.qhead{display:flex;align-items:center;gap:16px;justify-content:space-between;flex-wrap:wrap}
+.qnum{color:var(--mute);font-size:15px;letter-spacing:.06em}
+.qtext{font-size:clamp(26px,4.2vw,46px);line-height:1.15;text-align:center}
+.qimg{display:block;margin:0 auto;max-width:100%;max-height:32vh;border-radius:14px;border:1px solid var(--line);object-fit:contain;background:var(--ridge)}
+.timer{width:78px;height:78px;border-radius:50%;display:grid;place-items:center;font-family:var(--display);font-size:32px;background:conic-gradient(var(--saffron) calc(var(--p,1)*360deg),var(--ridge) 0);position:relative;flex:none}
+.timer::after{content:"";position:absolute;inset:7px;border-radius:50%;background:var(--night)}
+.timer span{position:relative;z-index:1;font-variant-numeric:tabular-nums}
+.answers{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.ans{border-radius:16px;padding:18px;min-height:92px;display:flex;align-items:center;gap:14px;color:#fff;font-size:clamp(18px,2.5vw,28px);font-weight:700;text-align:right;position:relative;transition:opacity .3s}
+.ans .mk{font-family:var(--display);width:44px;height:44px;border-radius:10px;background:rgba(0,0,0,.22);display:grid;place-items:center;flex:none;font-size:26px}
+.ans .cnt{margin-inline-start:auto;font-family:var(--display);font-size:26px;font-variant-numeric:tabular-nums}
+.c0{background:var(--saffron);color:#1b1300}.c1{background:var(--jade)}.c2{background:var(--rose)}.c3{background:var(--sky)}
+.ans.dim{opacity:.28}
+.ans.win{outline:4px solid #fff;outline-offset:-4px}
+.ans.win::before{content:"✓";position:absolute;top:-12px;left:-10px;background:#fff;color:var(--night);width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-size:20px}
+.revgrid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);gap:16px;align-items:center}
+.fact{background:var(--ridge);border:1px solid var(--line);border-radius:14px;padding:14px 18px;font-size:20px;text-align:center}
+.answered{display:flex;flex-wrap:wrap;gap:6px;justify-content:center}
+.answered .av{--s:34px}
+/* boards */
+.board{display:flex;flex-direction:column;gap:8px;width:100%;max-width:640px;margin:0 auto}
+.row{display:flex;align-items:center;gap:12px;background:var(--ridge);border:1px solid var(--line);border-radius:12px;padding:8px 14px;font-size:20px}
+.row b{font-family:var(--display);font-weight:400;width:28px;color:var(--mute)}
+.row .nm{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.row .pt{font-variant-numeric:tabular-nums;font-weight:700}
+.row.me{border-color:var(--saffron)}
+.podium{display:flex;align-items:flex-end;justify-content:center;gap:14px;width:100%;max-width:700px}
+.step{flex:1;border-radius:14px 14px 0 0;display:flex;flex-direction:column;align-items:center;padding:14px 8px;gap:6px;min-width:0}
+.step .nm{font-weight:700;font-size:20px;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.step .pl{font-family:var(--display);font-size:36px}
+.step .av{--s:72px}
+.s1{min-height:270px;background:var(--saffron);color:#1b1300}.s2{min-height:220px;background:var(--sky)}.s3{min-height:190px;background:var(--rose)}
+.big-result{font-family:var(--display);font-size:clamp(40px,10vw,72px)}
+.ok{color:var(--good)}.no{color:var(--bad)}
+.hostbar{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+/* player */
+.player .answers{flex:1}
+.player .ans{min-height:110px;justify-content:center;flex-direction:column;gap:6px;text-align:center}
+.player .ans .mk{width:auto;height:auto;background:none;font-size:48px}
+.player .ans .t{font-size:16px;font-weight:500}
+@media (max-width:760px){
+  .lobby,.revgrid{grid-template-columns:1fr}
+  .frame{display:none}
+  .answers{grid-template-columns:1fr}
+  .player .answers{grid-template-columns:1fr 1fr}
+  .s1{min-height:200px}.s2{min-height:165px}.s3{min-height:140px}
+  .step .av{--s:52px}.step .nm{font-size:15px}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div id="app"><div class="center"><h1 class="hero">חידון <em>כנפי שחר</em></h1><p class="sub" id="boot">טוען…</p></div></div>
+
+<script src="questions.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" async></script>
+<script>
+/* ---------- config ---------- */
+const BROKERS=["wss://broker.emqx.io:8084/mqtt","wss://broker.hivemq.com:8884/mqtt"];
+const MQTT_SRC=["https://unpkg.com/mqtt@5.10.1/dist/mqtt.min.js","https://cdn.jsdelivr.net/npm/mqtt@5.10.1/dist/mqtt.min.js","https://unpkg.com/mqtt@4.3.7/dist/mqtt.min.js"];
+const NS="kanfeishachar-quiz-v1/";
+const LETTERS=["א","ב","ג","ד"];
+const SLIDES=["group","aizawl","entrance","waterfall","aizawl-airport","river","dinner","jungle","indigo","hotel-prayer","airport-garden","jetbridge","cake","eggs","kitchen-beans","glass-angel","cafe","breakfast","fish-market"].map(n=>"img/"+n+".jpg");
+const QS=(window.QUIZ&&window.QUIZ.list)||[];
+const DUR=(window.QUIZ&&window.QUIZ.timer)||45;
+const app=document.getElementById("app");
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const ls={get(k){try{return JSON.parse(localStorage.getItem(k))}catch(e){return null}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}},del(k){try{localStorage.removeItem(k)}catch(e){}}};
+const isHost=location.hash==="#host";
+let client=null, online=false, slideIdx=0;
+
+/* ---------- mqtt loader ---------- */
+function loadScript(src){return new Promise((res,rej)=>{const s=document.createElement("script");s.src=src;s.onload=res;s.onerror=rej;document.head.appendChild(s)})}
+async function loadMqtt(){ for(const src of MQTT_SRC){ try{ await loadScript(src); if(window.mqtt) return true }catch(e){} } return false }
+function connectBroker(i){
+  return new Promise((res,rej)=>{
+    const c=mqtt.connect(BROKERS[i],{clientId:"ks_"+Math.random().toString(16).slice(2,12),clean:true,connectTimeout:8000,reconnectPeriod:2000,keepalive:30});
+    let done=false;
+    c.on("connect",()=>{ online=true; setNet(); if(!done){done=true;res(c)} });
+    c.on("close",()=>{ online=false; setNet() });
+    c.on("offline",()=>{ online=false; setNet() });
+    setTimeout(()=>{ if(!done){ done=true; c.end(true); rej(new Error("timeout")) } },9000);
+  });
+}
+function setNet(){ const el=document.getElementById("net"); if(el){ el.textContent=online?"מחובר":"מתחבר מחדש…"; el.classList.toggle("off",!online) } }
+function brokerOf(code){ return (+String(code)[0])>=5?1:0 }
+function pub(topic,obj,retain){ if(client) client.publish(NS+topic, obj==null?"":JSON.stringify(obj), {qos:1,retain:!!retain}) }
+
+/* ---------- avatars ---------- */
+function hue(s){let h=0;for(const ch of String(s))h=(h*31+ch.charCodeAt(0))%360;return h}
+function av(p,size){
+  const s=size?`--s:${size}px;`:"";
+  if(p&&p.img) return `<span class="av" style="${s}"><img src="${esc(p.img)}" alt=""></span>`;
+  const n=(p&&p.name)||"?";
+  return `<span class="av" style="${s}--c:hsl(${hue(n)} 55% 42%)">${esc(n.trim().charAt(0))}</span>`;
+}
+function resizePhoto(file){
+  return new Promise((res,rej)=>{
+    const img=new Image(); const url=URL.createObjectURL(file);
+    img.onload=()=>{ const S=160, c=document.createElement("canvas"); c.width=c.height=S;
+      const m=Math.min(img.width,img.height); const ctx=c.getContext("2d");
+      ctx.drawImage(img,(img.width-m)/2,(img.height-m)/2,m,m,0,0,S,S);
+      URL.revokeObjectURL(url); res(c.toDataURL("image/jpeg",0.72)); };
+    img.onerror=rej; img.src=url;
+  });
+}
+function header(extra){
+  return `<div class="top"><div class="brand">חידון כנפי שחר<small>משלחת הרבנים · מיזורם · נובמבר 2026</small></div><div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">${extra||""}<span class="pill${online?"":" off"}" id="net">${online?"מחובר":"מתחבר…"}</span></div></div>`;
+}
+function scoreGain(a){ return a? 500+Math.round(500*Math.max(0,1-(a.ms||0)/(DUR*1000))) : 0 }
+
+/* =================== HOST =================== */
+let H=null; // {code, phase, qi, roster:{id:{name,img,t}}, answers:{id:{qi:{c,ms}}}}
+let qStartLocal=0;
+function hSave(){ const {roster,...rest}=H; ls.set("ks-host",{...rest,roster:Object.fromEntries(Object.entries(roster).map(([k,v])=>[k,{name:v.name,t:v.t}]))}) }
+function hRank(upto){
+  return Object.entries(H.roster).map(([id,p])=>{let s=0,c=0,g=0;QS.forEach((q,i)=>{if(i>upto)return;const a=H.answers[id]&&H.answers[id][i];if(a&&a.c===q.correct){c++;const v=scoreGain(a);s+=v;if(i===upto)g=v}});return {id,name:p.name,img:p.img,s,c,g}}).sort((a,b)=>b.s-a.s||a.name.localeCompare(b.name));
+}
+function hAnswered(){ return Object.keys(H.roster).filter(id=>H.answers[id]&&H.answers[id][H.qi]) }
+function hPublish(){
+  const st={phase:H.phase,qi:H.qi,total:QS.length,dur:DUR,roster:Object.entries(H.roster).map(([id,p])=>[id,p.name]),ts:Date.now()};
+  if(H.phase==="question"){ st.answered=hAnswered(); st.left=Math.max(0,DUR-(Date.now()-qStartLocal)/1000) }
+  if(["reveal","board","end"].includes(H.phase)){
+    const counts=[0,0,0,0]; Object.values(H.answers).forEach(a=>{const x=a[H.qi]; if(x) counts[x.c]++});
+    st.counts=counts; st.correct=QS[H.qi]?QS[H.qi].correct:null;
+    st.scores=hRank(H.qi).map(r=>({id:r.id,s:r.s,c:r.c,g:r.g}));
+  }
+  pub(H.code+"/s",st,true);
+}
+function hSet(patch){ Object.assign(H,patch); if(patch.phase==="question"){ qStartLocal=Date.now(); H.qStart=qStartLocal } hSave(); hPublish(); hRender() }
+function genCode(i){ const first=i===0?1+Math.floor(Math.random()*4):5+Math.floor(Math.random()*5); return String(first)+String(Math.floor(Math.random()*1000)).padStart(3,"0") }
+
+async function hostStart(resume){
+  app.innerHTML=`<div class="center"><h1 class="hero">חידון <em>כנפי שחר</em></h1><p class="sub">מתחבר לשרת המשחק…</p></div>`;
+  if(!await loadMqtt()){ return fail("לא הצלחתי לטעון את רכיב התקשורת. בדוק את חיבור האינטרנט ונסה לרענן.") }
+  let idx=resume?brokerOf(resume.code):0;
+  try{ client=await connectBroker(idx) }catch(e){
+    if(resume) return fail("אין חיבור לשרת המשחק. בדוק אינטרנט ורענן.");
+    try{ idx=1; client=await connectBroker(1) }catch(e2){ return fail("אין חיבור לשרת המשחק. ייתכן שהרשת חוסמת. נסה רשת אחרת או נקודה חמה מהטלפון.") }
+  }
+  H=resume||{code:genCode(idx),phase:"lobby",qi:-1,roster:{},answers:{}};
+  if(H.phase==="question"){ qStartLocal=H.qStart||Date.now() }
+  client.subscribe([NS+H.code+"/p/+",NS+H.code+"/a/+"],{qos:1});
+  client.on("connect",()=>hPublish());
+  client.on("message",(topic,buf)=>{
+    const parts=topic.slice(NS.length).split("/"); const kind=parts[1], id=parts[2]; let d=null;
+    try{ d=buf.length?JSON.parse(buf.toString()):null }catch(e){ return }
+    if(kind==="p"){ if(!d||!d.name) return; const prev=H.roster[id]; H.roster[id]={name:String(d.name).slice(0,24),img:typeof d.img==="string"&&d.img.startsWith("data:image/")?d.img:"",t:(prev&&prev.t)||Date.now()}; hSave(); hPublish(); hRender(); }
+    if(kind==="a"){ if(!d||H.phase!=="question"||d.qi!==H.qi||!H.roster[id]) return;
+      H.answers[id]=H.answers[id]||{}; if(H.answers[id][H.qi]) { hPublish(); return }
+      const ms=Date.now()-qStartLocal; if(ms>DUR*1000+1500) return;
+      H.answers[id][H.qi]={c:Math.max(0,Math.min(3,d.c|0)),ms}; hSave(); hPublish(); hRender(); }
+  });
+  hPublish(); hRender();
+}
+function joinUrl(){ return location.origin+location.pathname+"?code="+H.code }
+function hRender(){
+  const q=QS[H.qi], ps=Object.entries(H.roster).sort((a,b)=>a[1].t-b[1].t);
+  if(H.phase==="lobby"){
+    app.innerHTML=header()+`
+      <div class="lobby">
+        <div style="display:flex;flex-direction:column;gap:18px">
+          <h1 class="hero">חידון <em>כנפי שחר</em></h1>
+          <div class="joinbox"><div style="display:flex;flex-direction:column;gap:6px;min-width:0"><span class="lbl">נכנסים לכתובת</span><span class="url">${esc(location.host+location.pathname)}</span><span class="lbl" style="margin-top:8px">קוד משחק</span><span class="bigcode">${H.code}</span></div><div id="qr"></div></div>
+          <div class="hostbar" style="justify-content:flex-start"><button class="btn" id="go" ${ps.length?"":"disabled"}>מתחילים (${QS.length} שאלות)</button><button class="btn ghost small" id="newg">קוד חדש</button></div>
+        </div>
+        <div class="frame"><img id="slide" src="${SLIDES[slideIdx%SLIDES.length]}" alt="תמונה מהמשלחת"></div>
+      </div>
+      <div style="display:flex;align-items:center;gap:14px;justify-content:center"><span class="count">${ps.length}</span><span class="sub">משתתפים בפנים</span></div>
+      <div class="people">${ps.map(([id,p])=>`<div class="person">${av(p,72)}<span>${esc(p.name)}</span></div>`).join("")||'<p class="note">מחכים לראשונים…</p>'}</div>`;
+    go.onclick=()=>hSet({phase:"question",qi:0});
+    newg.onclick=()=>{ ls.del("ks-host"); location.reload() };
+    drawQR(); return;
+  }
+  if(H.phase==="question"||H.phase==="reveal"){
+    const rev=H.phase==="reveal", ans=hAnswered(), counts=[0,0,0,0];
+    Object.values(H.answers).forEach(a=>{const x=a[H.qi]; if(x) counts[x.c]++});
+    const showImg=q.img&&((!rev&&!q.revealOnly)||(rev&&!q.fact));
+    app.innerHTML=header(`<span class="pill">${ans.length} מתוך ${ps.length} ענו</span>`)+`
+      <div class="qhead"><span class="qnum">שאלה ${H.qi+1} מתוך ${QS.length}</span>${rev?`<button class="btn small" id="nx">${H.qi+1>=QS.length?"לפודיום":"לטבלה"}</button>`:`<div class="timer" id="tm"><span>${DUR}</span></div>`}</div>
+      <h2 class="qtext">${esc(q.q)}</h2>
+      ${showImg?`<img class="qimg" src="${esc(q.img)}" alt="">`:""}
+      <div class="answers">${q.opts.map((o,i)=>`<div class="ans c${i} ${rev?(i===q.correct?"win":"dim"):""}"><span class="mk">${LETTERS[i]}</span><span>${esc(o)}</span>${rev?`<span class="cnt">${counts[i]}</span>`:""}</div>`).join("")}</div>
+      ${rev&&q.fact?(q.img?`<div class="revgrid"><img class="qimg" src="${esc(q.img)}" alt=""><div class="fact">${esc(q.fact)}</div></div>`:`<div class="fact">${esc(q.fact)}</div>`):""}
+      ${!rev?`<div class="answered">${ans.map(id=>av(H.roster[id],34)).join("")}</div><div class="hostbar"><button class="btn ghost small" id="rv">לחשוף עכשיו</button></div>`:""}`;
+    if(rev) nx.onclick=()=>hSet({phase:H.qi+1>=QS.length?"end":"board"}); else { rv.onclick=()=>hSet({phase:"reveal"}); tick() }
+    return;
+  }
+  if(H.phase==="board"){
+    const r=hRank(H.qi).slice(0,7);
+    app.innerHTML=header()+`<div class="center"><h2 style="font-size:40px">אחרי ${H.qi+1} שאלות</h2>
+      <div class="board">${r.map((p,i)=>`<div class="row"><b>${i+1}</b>${av(p,40)}<span class="nm">${esc(p.name)}</span><span class="pt">${p.s.toLocaleString("he-IL")}</span></div>`).join("")}</div>
+      <button class="btn" id="nx">לשאלה הבאה</button></div>`;
+    nx.onclick=()=>hSet({phase:"question",qi:H.qi+1}); return;
+  }
+  if(H.phase==="end"){
+    const r=hRank(QS.length-1), pod=[r[1],r[0],r[2]];
+    app.innerHTML=header()+`<div class="center"><h1 class="hero">סיימנו את <em>המשימה</em></h1>
+      <img class="qimg" style="max-height:24vh" src="img/group.jpg" alt="המשלחת בשדה התעופה באייזול">
+      <div class="podium">${pod.map((x,i)=>x?`<div class="step s${[2,1,3][i]}"><span class="pl">${[2,1,3][i]}</span>${av(x)}<span class="nm">${esc(x.name)}</span><span>${x.s.toLocaleString("he-IL")}</span></div>`:"").join("")}</div>
+      <div class="board">${r.slice(3,10).map((x,i)=>`<div class="row"><b>${i+4}</b>${av(x,36)}<span class="nm">${esc(x.name)}</span><span class="pt">${x.s.toLocaleString("he-IL")}</span></div>`).join("")}</div>
+      <div class="hostbar"><button class="btn ghost" id="rs">משחק חדש</button></div></div>`;
+    rs.onclick=()=>{ ls.del("ks-host"); location.reload() };
+  }
+}
+function drawQR(){ const el=document.getElementById("qr"); if(!el) return; if(!window.QRCode){ setTimeout(drawQR,500); return } el.innerHTML=""; try{ new QRCode(el,{text:joinUrl(),width:170,height:170,correctLevel:QRCode.CorrectLevel.M}) }catch(e){} }
+
+/* =================== PLAYER =================== */
+let P={code:null,id:null,name:"",img:"",st:null,people:{},myAns:{},qLocal:{}};
+function playerForm(err){
+  const pre=new URLSearchParams(location.search).get("code")||"";
+  const saved=ls.get("ks-me")||{};
+  app.innerHTML=header()+`<div class="center"><h1 class="hero">חידון <em>כנפי שחר</em></h1>
+    <form class="joinform" id="jf" novalidate>
+      <div class="field"><label for="codeIn">קוד משחק</label><input id="codeIn" type="tel" inputmode="numeric" maxlength="4" autocomplete="off" value="${esc(pre)}" placeholder="0000"></div>
+      <div class="field"><label for="nameIn">שם או כינוי</label><input id="nameIn" type="text" maxlength="24" autocomplete="off" value="${esc(saved.name||"")}" placeholder="למשל: הרב מחדר 102ב"></div>
+      <div class="field"><label>תמונה (לא חובה)</label><div class="photo"><span id="prev">${av({name:saved.name||"?",img:saved.img},64)}</span><label class="pick" for="photoIn">${saved.img?"החלפת תמונה":"בחירת תמונה או סלפי"}</label><input id="photoIn" type="file" accept="image/*"></div></div>
+      <div class="err" id="er">${esc(err||"")}</div>
+      <button class="btn" id="jb">נכנסים</button>
+    </form></div>`;
+  let img=saved.img||"";
+  photoIn.onchange=async()=>{ const f=photoIn.files[0]; if(!f) return; try{ img=await resizePhoto(f); prev.innerHTML=av({img},64) }catch(e){ er.textContent="לא הצלחתי לקרוא את התמונה. אפשר להמשיך בלעדיה." } };
+  nameIn.oninput=()=>{ if(!img) prev.innerHTML=av({name:nameIn.value||"?"},64) };
+  jf.onsubmit=async e=>{ e.preventDefault();
+    const code=codeIn.value.trim(), name=nameIn.value.trim();
+    if(!/^\d{4}$/.test(code)){ er.textContent="קוד המשחק הוא 4 ספרות, מופיע על המסך הגדול."; return }
+    if(!name){ er.textContent="צריך שם כדי להופיע בטבלה."; return }
+    jb.disabled=true; jb.textContent="מתחבר…";
+    ls.set("ks-me",{name,img});
+    playerJoin(code,name,img);
+  };
+}
+async function playerJoin(code,name,img){
+  if(!await loadMqtt()) return playerForm("לא הצלחתי לטעון את רכיב התקשורת. בדוק אינטרנט ונסה שוב.");
+  try{ client=await connectBroker(brokerOf(code)) }catch(e){ return playerForm("אין חיבור לשרת המשחק. נסה שוב, או עבור לרשת אחרת.") }
+  const ids=ls.get("ks-ids")||{}; if(!ids[code]){ ids[code]="u"+Math.random().toString(36).slice(2,10); ls.set("ks-ids",ids) }
+  P.code=code; P.id=ids[code]; P.name=name; P.img=img;
+  client.subscribe([NS+code+"/s",NS+code+"/p/+"],{qos:1});
+  client.on("message",(topic,buf)=>{
+    const parts=topic.slice(NS.length).split("/"); let d=null;
+    try{ d=buf.length?JSON.parse(buf.toString()):null }catch(e){ return }
+    if(parts[1]==="s"&&d){ const prev=P.st; P.st=d; if(d.phase==="question"&&P.qLocal[d.qi]==null) P.qLocal[d.qi]=Date.now()-(DUR-(d.left??DUR))*1000;
+      if(d.phase==="question"&&P.myAns[d.qi]!=null&&!(d.answered||[]).includes(P.id)) pub(P.code+"/a/"+P.id,{qi:d.qi,c:P.myAns[d.qi]});
+      if(!d.roster.some(r=>r[0]===P.id)) pub(P.code+"/p/"+P.id,{name:P.name,img:P.img},true);
+      pRender(prev) }
+    if(parts[1]==="p"&&d) { P.people[parts[2]]=d; if(P.st&&P.st.phase==="lobby") pRender() }
+  });
+  client.on("connect",()=>pub(P.code+"/p/"+P.id,{name:P.name,img:P.img},true));
+  pub(P.code+"/p/"+P.id,{name:P.name,img:P.img},true);
+  app.innerHTML=header()+`<div class="center"><h2 style="font-size:30px">מחפש את המשחק ${esc(code)}…</h2><p class="sub">אם זה לוקח יותר מכמה שניות, בדוק שהקוד נכון.</p><button class="btn ghost small" id="back">חזרה</button></div>`;
+  back.onclick=()=>{ client.end(true); playerForm() };
+}
+function pRender(){
+  const st=P.st; if(!st) return; const q=QS[st.qi]; const me={name:P.name,img:P.img};
+  if(st.phase==="lobby"){
+    const ppl=st.roster.map(([id,n])=>({id,name:n,img:(P.people[id]||{}).img}));
+    app.innerHTML=header()+`<div class="center player">${av(me,96)}<h1 class="hero" style="font-size:44px">שלום <em>${esc(P.name)}</em></h1>
+      <p class="sub">נכנסת למשחק ${esc(P.code)}. מחכים שאלמוג יתחיל.</p>
+      <img class="qimg" id="slide" style="max-height:26vh" src="${SLIDES[slideIdx%SLIDES.length]}" alt="תמונה מהמשלחת">
+      <div class="people">${ppl.map(p=>`<div class="person" style="width:72px">${av(p,48)}<span style="font-size:12px">${esc(p.name)}</span></div>`).join("")}</div>
+      <button class="btn ghost small" id="edit">שינוי שם או תמונה</button></div>`;
+    edit.onclick=()=>{ client.end(true); playerForm() }; return;
+  }
+  if(st.phase==="question"){
+    const mine=P.myAns[st.qi];
+    if(mine!=null){ app.innerHTML=header()+`<div class="center player"><div class="ans c${mine}" style="min-height:0;padding:22px 34px"><span class="mk" style="font-size:44px">${LETTERS[mine]}</span></div><h2 style="font-size:30px">${(st.answered||[]).includes(P.id)?"נקלט. מחכים לכולם":"שולח…"}</h2><p class="sub">${esc(q.q)}</p></div>`; return }
+    app.innerHTML=header()+`<div class="player" style="display:flex;flex-direction:column;gap:14px;flex:1">
+      <div class="qhead"><span class="qnum">שאלה ${st.qi+1} מתוך ${st.total}</span><div class="timer" id="tm"><span>${DUR}</span></div></div>
+      <h2 style="font-size:22px;text-align:center">${esc(q.q)}</h2>
+      ${q.img&&!q.revealOnly?`<img class="qimg" style="max-height:22vh" src="${esc(q.img)}" alt="">`:""}
+      <div class="answers">${q.opts.map((o,i)=>`<button class="ans c${i}" data-i="${i}"><span class="mk">${LETTERS[i]}</span><span class="t">${esc(o)}</span></button>`).join("")}</div></div>`;
+    app.querySelectorAll("[data-i]").forEach(b=>b.onclick=()=>{ const i=+b.dataset.i; P.myAns[st.qi]=i; pub(P.code+"/a/"+P.id,{qi:st.qi,c:i}); pRender() });
+    tick(); return;
+  }
+  if(st.phase==="reveal"||st.phase==="board"){
+    const mine=P.myAns[st.qi], ok=mine!=null&&mine===st.correct;
+    const sc=st.scores||[], rank=sc.findIndex(x=>x.id===P.id)+1, my=sc[rank-1]||{s:0,g:0};
+    app.innerHTML=header()+`<div class="center player">
+      <div class="big-result ${ok?"ok":"no"}">${mine==null?"לא הספקת":ok?"נכון!":"לא נכון"}</div>
+      ${ok?`<p class="sub">+${my.g} נקודות</p>`:`<p class="sub">התשובה: ${esc(q.opts[st.correct])}</p>`}
+      ${q.img&&q.revealOnly?`<img class="qimg" style="max-height:24vh" src="${esc(q.img)}" alt="">`:""}
+      ${q.fact?`<div class="fact">${esc(q.fact)}</div>`:""}
+      <div class="row me" style="width:100%;max-width:420px"><b>${rank||"-"}</b>${av(me,36)}<span class="nm">${esc(P.name)}</span><span class="pt">${my.s.toLocaleString("he-IL")}</span></div></div>`; return;
+  }
+  if(st.phase==="end"){
+    const sc=st.scores||[], rank=sc.findIndex(x=>x.id===P.id)+1, my=sc[rank-1]||{s:0,c:0};
+    app.innerHTML=header()+`<div class="center player">${av(me,96)}<h1 class="hero">מקום <em>${rank||"-"}</em></h1><p class="sub">${my.c} תשובות נכונות מתוך ${st.total}, ${my.s.toLocaleString("he-IL")} נקודות.</p><p class="sub">תודה על שבועיים של עבודת קודש. נתראה בנתב״ג.</p></div>`;
+  }
+}
+
+/* ---------- shared loops ---------- */
+function tick(){
+  const el=document.getElementById("tm"); if(!el) return;
+  let start=null;
+  if(isHost&&H&&H.phase==="question") start=qStartLocal;
+  if(!isHost&&P.st&&P.st.phase==="question") start=P.qLocal[P.st.qi];
+  if(start==null) return;
+  const left=Math.max(0,DUR-(Date.now()-start)/1000);
+  el.style.setProperty("--p",(left/DUR).toFixed(3)); el.querySelector("span").textContent=Math.ceil(left);
+  if(isHost&&H.phase==="question"){ const n=Object.keys(H.roster).length; if(left<=0||(n>0&&hAnswered().length>=n)) hSet({phase:"reveal"}) }
+}
+setInterval(tick,250);
+setInterval(()=>{ const el=document.getElementById("slide"); if(!el) return; slideIdx++; el.style.opacity=0; setTimeout(()=>{ el.src=SLIDES[slideIdx%SLIDES.length]; el.style.opacity=1 },500) },6000);
+function fail(msg){ app.innerHTML=`<div class="center"><h1 class="hero">חידון <em>כנפי שחר</em></h1><p class="sub">${esc(msg)}</p><button class="btn" onclick="location.reload()">לנסות שוב</button></div>` }
+
+/* ---------- boot ---------- */
+if(isHost){
+  const saved=ls.get("ks-host");
+  if(saved&&saved.code&&saved.phase!=="end"){
+    app.innerHTML=`<div class="center"><h1 class="hero">חידון <em>כנפי שחר</em></h1><p class="sub">נמצא משחק פתוח עם הקוד ${esc(saved.code)} (${Object.keys(saved.roster||{}).length} משתתפים).</p><div class="hostbar"><button class="btn" id="cont">להמשיך אותו</button><button class="btn ghost" id="fresh">משחק חדש</button></div></div>`;
+    cont.onclick=()=>{ saved.roster=Object.fromEntries(Object.entries(saved.roster||{}).map(([k,v])=>[k,{...v,img:""}])); hostStart(saved) };
+    fresh.onclick=()=>{ ls.del("ks-host"); hostStart(null) };
+  } else hostStart(null);
+} else playerForm();
+</script>
+</body>
+</html>
