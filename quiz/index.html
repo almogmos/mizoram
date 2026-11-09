@@ -67,8 +67,10 @@ input[type=text],input[type=tel]{font:inherit;background:var(--ridge);color:var(
 .url{direction:ltr;font-size:16px;color:var(--ink);word-break:break-all}
 #qr{background:#fff;padding:8px;border-radius:10px;line-height:0}
 #qr:empty{display:none}
-.frame{border-radius:18px;overflow:hidden;border:1px solid var(--line);aspect-ratio:4/3;background:var(--ridge);transform:rotate(-1.5deg);box-shadow:0 20px 50px rgba(0,0,0,.45)}
-.frame img{width:100%;height:100%;object-fit:cover;display:block;transition:opacity .6s}
+.frame{position:relative;border-radius:18px;overflow:hidden;border:1px solid var(--line);aspect-ratio:4/3;background:var(--ridge);transform:rotate(-1.5deg);box-shadow:0 20px 50px rgba(0,0,0,.45)}
+.frame img{display:block;transition:opacity .6s}
+.frame .bg{position:absolute;inset:-24px;width:calc(100% + 48px);height:calc(100% + 48px);object-fit:cover;filter:blur(22px) brightness(.55)}
+.frame .fg{position:relative;width:100%;height:100%;object-fit:contain}
 .count{font-family:var(--display);font-size:56px;color:var(--saffron);line-height:1}
 /* question */
 .qhead{display:flex;align-items:center;gap:16px;justify-content:space-between;flex-wrap:wrap}
@@ -135,7 +137,7 @@ const BROKERS=["wss://broker.emqx.io:8084/mqtt","wss://broker.hivemq.com:8884/mq
 const MQTT_SRC=["https://unpkg.com/mqtt@5.10.1/dist/mqtt.min.js","https://cdn.jsdelivr.net/npm/mqtt@5.10.1/dist/mqtt.min.js","https://unpkg.com/mqtt@4.3.7/dist/mqtt.min.js"];
 const NS="kanfeishachar-quiz-v1/";
 const LETTERS=["א","ב","ג","ד"];
-const SLIDES=["night-group","group","aizawl","flag-group","entrance","waterfall","ceremony","aizawl-airport","aizawl-hill","river","dinner","regency-meeting","jungle","scooter","indigo","babies","hotel-prayer","airport-garden","jewelry","jetbridge","car-lean","cake","eggs","kitchen-beans","moth","glass-angel","cafe","breakfast","fish-market"].map(n=>"img/"+n+".jpg");
+const SLIDES=["night-group","rabbis-group","group","flag-group","entrance","waterfall","ceremony","aizawl-airport","aizawl-hill","river","dinner","regency-meeting","jungle","scooter","indigo","babies","hotel-prayer","airport-garden","jewelry","jetbridge","car-lean","cake","eggs","kitchen-beans","moth","glass-angel","cafe","breakfast","fish-market"].map(n=>"img/"+n+".jpg");
 const QS=(window.QUIZ&&window.QUIZ.list)||[];
 const DUR=(window.QUIZ&&window.QUIZ.timer)||30;
 const app=document.getElementById("app");
@@ -239,7 +241,7 @@ function hRender(){
           <div class="joinbox"><div style="display:flex;flex-direction:column;gap:6px;min-width:0"><span class="lbl">נכנסים לכתובת</span><span class="url">${esc(location.host+location.pathname)}</span><span class="lbl" style="margin-top:8px">קוד משחק</span><span class="bigcode">${H.code}</span></div><div id="qr"></div></div>
           <div class="hostbar" style="justify-content:flex-start"><button class="btn" id="go" ${ps.length?"":"disabled"}>מתחילים (${QS.length} שאלות)</button><button class="btn ghost small" id="newg">קוד חדש</button></div>
         </div>
-        <div class="frame"><img id="slide" src="${SLIDES[slideIdx%SLIDES.length]}" alt="תמונה מהמשלחת"></div>
+        <div class="frame"><img class="bg" data-slide src="${SLIDES[slideIdx%SLIDES.length]}" alt=""><img class="fg" data-slide src="${SLIDES[slideIdx%SLIDES.length]}" alt="תמונה מהמשלחת"></div>
       </div>
       <div style="display:flex;align-items:center;gap:14px;justify-content:center"><span class="count">${ps.length}</span><span class="sub">משתתפים בפנים</span></div>
       <div class="people">${ps.map(([id,p])=>`<div class="person">${av(p,72)}<span>${esc(p.name)}</span></div>`).join("")||'<p class="note">מחכים לראשונים…</p>'}</div>`;
@@ -331,7 +333,7 @@ function pRender(){
     const ppl=st.roster.map(([id,n])=>({id,name:n,img:(P.people[id]||{}).img}));
     app.innerHTML=header()+`<div class="center player">${av(me,96)}<h1 class="hero" style="font-size:44px">שלום <em>${esc(P.name)}</em></h1>
       <p class="sub">נכנסת למשחק ${esc(P.code)}. מחכים שאלמוג יתחיל.</p>
-      <img class="qimg" id="slide" style="max-height:26vh" src="${SLIDES[slideIdx%SLIDES.length]}" alt="תמונה מהמשלחת">
+      <img class="qimg" data-slide style="max-height:26vh" src="${SLIDES[slideIdx%SLIDES.length]}" alt="תמונה מהמשלחת">
       <div class="people">${ppl.map(p=>`<div class="person" style="width:72px">${av(p,48)}<span style="font-size:12px">${esc(p.name)}</span></div>`).join("")}</div>
       <button class="btn ghost small" id="edit">שינוי שם או תמונה</button></div>`;
     edit.onclick=()=>{ client.end(true); playerForm() }; return;
@@ -375,7 +377,7 @@ function tick(){
   if(isHost&&H.phase==="question"){ const n=Object.keys(H.roster).length; if(left<=0||(n>0&&hAnswered().length>=n)) hSet({phase:"reveal"}) }
 }
 setInterval(tick,250);
-setInterval(()=>{ const el=document.getElementById("slide"); if(!el) return; slideIdx++; el.style.opacity=0; setTimeout(()=>{ el.src=SLIDES[slideIdx%SLIDES.length]; el.style.opacity=1 },500) },6000);
+setInterval(()=>{ const els=document.querySelectorAll("[data-slide]"); if(!els.length) return; slideIdx++; els.forEach(el=>el.style.opacity=0); setTimeout(()=>{ els.forEach(el=>{ el.src=SLIDES[slideIdx%SLIDES.length]; el.style.opacity=1 }) },500) },6000);
 function fail(msg){ app.innerHTML=`<div class="center"><h1 class="hero">חידון <em>כנפי שחר</em></h1><p class="sub">${esc(msg)}</p><button class="btn" onclick="location.reload()">לנסות שוב</button></div>` }
 
 /* ---------- boot ---------- */
