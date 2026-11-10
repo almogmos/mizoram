@@ -992,11 +992,11 @@ var DAYS = [
   ["20:30","20:45","note","סיכום יומי",SUM],
   ["20:45","21:15","travel","חזרה למלון",""]
  ]},
- {d:11, w:"ד׳", heb:"א׳ בכסלו", label:"דלהי", title:"חוזרים לדלהי", stay:"מלון The Metropolitan, דלהי", tz:"IN", badges:[["ראש חודש כסלו, יום ב׳",""]], items:[
+ {d:11, w:"ד׳", heb:"א׳ בכסלו", label:"דלהי", title:"חוזרים לדלהי", stay:"מלון The Metropolitan, דלהי", tz:"IN", box:"לא לשכוח דרכון, ולהיות מוכנים עם כרטיס הטיסה ממיזורם לדלהי ועם אישור ה-PAP.", boxLink:["tickets/mismachim-d4bc56/","לכרטיס ולאישור"], badges:[["ראש חודש כסלו, יום ב׳",""]], items:[
   ["07:30",null,"prayer","תפילת שחרית","באולם בקומה 5 במלון. השכמה עצמית. "+RC],
   ["08:30",null,"meal","ארוחת בוקר",""],
-  ["08:30","10:00","bed","צ׳ק אאוט עצמאי מהמלון",""],
-  ["10:00","11:30","travel","נסיעה לשדה התעופה באייזול","יוצאים מהמלון ב-10:00."],
+  ["09:00",null,"bed","צ׳ק אאוט עצמאי והעמסת המזוודות על המשאית","הצ׳ק אאוט בדלפק הקבלה בקומה 1. לשים לב לשלם על הכביסות ועל חיובים נוספים, אם יש. המשאית יוצאת לפנינו כדי שלא נתעכב בשדה, ולכן חשוב להעמיס בזמן."],
+  ["09:30",null,"travel","עלייה לרכבים ויציאה לשדה התעופה באייזול",""],
   ["11:30",null,"flight","צ׳ק אין לטיסה",""],
   ["14:05","16:55","flight","טיסה לדלהי","תפילת מנחה בשדה, לפני ההמראה.",{flight:"6E 6233"}],
   ["16:55","18:30","travel","יציאה משדה התעופה ונסיעה לבית השגריר",""],
@@ -1194,7 +1194,7 @@ function dayHTML(day, compact){
   if (day.badges) h += '<div class="badges">'+day.badges.map(function(b){ return '<span class="badge '+(b[1]||"")+'">'+esc(b[0])+'</span>'; }).join("")+'</div>';
   h += '<p class="stay">'+ico("i-bed")+'<span>לינה: '+esc(day.stay)+'</span></p>';
   if (day.tzmix) h += '<p class="tznote">ביום הזה השעות לפי השעון המקומי בכל מקום, כמסומן ליד כל שעה.</p>';
-  if (day.box) h += '<div class="note-box">'+esc(day.box)+'</div>';
+  if (day.box) h += '<div class="note-box">'+esc(day.box)+(day.boxLink?' <a href="'+day.boxLink[0]+'">'+esc(day.boxLink[1])+'</a>':'')+'</div>';
   h += '</div><ol class="tl">';
   day.items.forEach(function(it){
     var st = isToday ? itemState(it,t) : "";
